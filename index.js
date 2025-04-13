@@ -21,12 +21,8 @@ app.post("/upload", upload.fields([
     { name: "img1", maxCount: 1 },
 ]), (req, res) => {
 
-    console.log(req.files)
+    console.log(req.files.img1[0].buffer)
     return res.redirect('/')
-},(err,req,res,next)=>{
-    if(err){
-        return res.send(err.code)
-    }
 })
 
 //listening the server at port 1111
