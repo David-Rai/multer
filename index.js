@@ -1,36 +1,29 @@
 const express = require('express')
 const app = express()
 const port = 1111
-const multer=require("multer")
+const upload = require('./upload.js')
 
-// const upload=multer({dest:"uploads/"})
-const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,'./uploads')
-    },
-    filename:(req,file,cb)=>{
-        cb(null,`${Date.now()}-${file.originalname}`)
-    }
-})
-const upload=multer({storage})
-
+//middlewares for json parsing
 app.use(express.json())
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
 
-app.set("view engine","ejs")
+//setting the view engine for teh server side rendering
+app.set("view engine", "ejs")
 
+//home page route
 app.get('/', (req, res) => {
 
     res.render('home')
 })
 
 //getting the file
-app.post("/upload",upload.array('profileImage',10),(req,res)=>{
+app.post("/upload", upload.single('profileImage'), (req, res) => {
 
-    console.log(req.file)
+    console.log(req.file.path)
     return res.redirect('/')
 })
 
+//listening the server at port 1111
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening on port ${port}`)
 })
