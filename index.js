@@ -19,11 +19,14 @@ app.get('/', (req, res) => {
 //getting the file
 app.post("/upload", upload.fields([
     { name: "img1", maxCount: 1 },
-    { name: "img2", maxCount: 1 },
 ]), (req, res) => {
 
     console.log(req.files)
     return res.redirect('/')
+},(err,req,res,next)=>{
+    if(err){
+        return res.send(err.code)
+    }
 })
 
 //listening the server at port 1111
